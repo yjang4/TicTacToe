@@ -1,14 +1,11 @@
 const GameBoard = (() => {
-    const board = ['x','','','','','','','',''];
-    function boardClick(index) {
-        board[index] = 'X';
-        console.log("da");
-        DisplayController.updateBoard();
-    }
+    const board = ['','','','','','','','',''];
+    const currentTurn = 'X';
+
 
     return {
         board,
-        boardClick
+        currentTurn
     };
 })();
 const DisplayController = (() => {
@@ -18,7 +15,15 @@ const DisplayController = (() => {
             const div = document.createElement('div');
             div.classList.add('unit');
             div.setAttribute('id', i);
-            div.addEventListener("onclick", GameBoard.boardClick(i));;
+            div.addEventListener("click", function (event) {
+                if(GameBoard.board[i] == '') {
+                    GameBoard.board[i] = GameBoard.currentTurn;
+                    if(GameBoard.currentTurn == 'X') GameBoard.currentTurn = 'O';
+                    else GameBoard.currentTurn = 'X';
+                    updateBoard();
+                }
+                
+                }, false);
             div.textContent= GameBoard.board[i];
             boardDiv.appendChild(div);
         }
@@ -30,7 +35,12 @@ const DisplayController = (() => {
     }
     function updateBoard() {
         removeBoard();
- 
+        displayBoard();
+    }
+    function isGameOver() {
+        if(GameBoard()) {
+            
+        }
     }
     return {
         displayBoard,
