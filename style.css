@@ -1,0 +1,21 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.board {
+    display: grid;
+    grid-template-columns: 75px 75px 75px;
+    grid-template-rows: 75px 75px 75px;
+    gap: 32px;
+
+}
+.board > div {
+    border: 1px solid blue;
+}
+.unit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+}
