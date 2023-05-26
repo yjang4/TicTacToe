@@ -1,30 +1,35 @@
-const GameBoard = (() => {
-    const board = ['','','','','','','','',''];
-    const currentTurn = 'X';
 
-
-    return {
-        board,
-        currentTurn
-    };
-})();
 const DisplayController = (() => {
     const boardDiv = document.querySelector('.board'); 
+    let winMessage = document.querySelector('.winMessage');
+    let startButton = document.querySelector('.startButton');
+    let startDiv = document.querySelector('.start');
+    const board = ['','','','','','','','',''];
+    let currentTurn = 'X';
+    function startGame() {
+        startButton.addEventListener("click", function (event) {
+            
+            
+            }, false);
+    }
     function displayBoard() {
-        for (let i = 0; i < GameBoard.board.length; i++) {
+        for (let i = 0; i < board.length; i++) {
             const div = document.createElement('div');
             div.classList.add('unit');
             div.setAttribute('id', i);
             div.addEventListener("click", function (event) {
-                if(GameBoard.board[i] == '') {
-                    GameBoard.board[i] = GameBoard.currentTurn;
-                    if(GameBoard.currentTurn == 'X') GameBoard.currentTurn = 'O';
-                    else GameBoard.currentTurn = 'X';
+                if(board[i] == '') {
+                    board[i] = currentTurn;
                     updateBoard();
+                    if(isGameOver()) {
+                        winMessage.textContent = currentTurn + ' wins!';
+                    }
+                    if(currentTurn == 'X') currentTurn = 'O';
+                    else currentTurn = 'X';
                 }
                 
                 }, false);
-            div.textContent= GameBoard.board[i];
+            div.textContent= board[i];
             boardDiv.appendChild(div);
         }
     }
@@ -37,14 +42,56 @@ const DisplayController = (() => {
         removeBoard();
         displayBoard();
     }
-    function isGameOver() {
-        if(GameBoard()) {
-            
+    function isHorizontalCheck() {
+        for(let i = 0; i < 9; i +=3) {
+            if(board[i] == board[i + 1] && board[i + 1] == board[i + 2] 
+                && board[i] != '' && board[i + 1] != '' && board[i + 2] != '') {
+                return true;
+            }
         }
+        return false;
+    }
+    function isVerticalCheck() {
+        for(let i = 0; i < 3; i ++) {
+            if(board[i] == board[i + 3] && board[i + 3] == board[i + 6] 
+                && board[i] != '' && board [i + 3] != '' && board[i + 6] != '') {
+                return true;
+            }
+
+        }
+        return false;
+    }
+    function isDiagonalCheck() {
+        if(board[0] == board[4] && board[4] == board[8] 
+            && board[0] != '' && board [4] != '' && board[8] != '') {
+            return true;
+        }
+        if(board[2] == board[4] && board[4] == board[6] 
+            && board[2] != '' && board [4] != '' && board[6] != '') {
+            return true;
+        }
+        
+        return false;
+    }
+    function isGameOver() {
+        if(isHorizontalCheck()) {
+            console.log("horizontal win");
+            return true;
+        }
+        if(isVerticalCheck()) {
+            console.log("vertical win");
+            return true;
+        }
+        if(isDiagonalCheck()) {
+            console.log("diagonal win");
+            return true;
+        }
+
+        return false;
+        
     }
     return {
         displayBoard,
         updateBoard,
     };
 })();
-DisplayController.displayBoard();
